@@ -5,6 +5,7 @@
 
 # Valeur mincl automatique (mode texte IRaMuTeQ):
 # mincl = round(n_uce / ind), avec ind = nbcl * 2 (double) sinon nbcl.
+
 calculer_mincl_auto_iramuteq <- function(n_uce, nbcl, classif_mode = c("double", "simple")) {
   classif_mode <- match.arg(classif_mode)
   n_uce <- as.integer(n_uce)
