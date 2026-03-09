@@ -34,9 +34,8 @@ appliquer_nettoyage_iramuteq <- function(textes,
   x <- gsub("\\s+", " ", x, perl = TRUE)
   x <- trimws(x)
 
-  if (isTRUE(forcer_minuscules)) {
-    x <- tolower(x)
-  }
+  # Le corpus est toujours normalisé en minuscules avant tokenisation.
+  x <- tolower(x)
 
   x
 }

@@ -169,15 +169,6 @@ ui <- fluidPage(
       ),
 
       checkboxInput("nettoyage_caracteres", "Nettoyage caractères (regex)", value = FALSE),
-      tags$small("Regex appliquée quand “Nettoyage caractères (regex)” est activé :"),
-      tags$pre(
-        style = "white-space: pre-wrap; font-size: 11px; border: 1px solid #ddd; padding: 6px;",
-        REGEX_CARACTERES_A_SUPPRIMER
-      ),
-      tags$small("Les caractères présents dans la liste entre crochets sont conservés ; tous les autres (ex. @ # & / emoji) sont remplacés par des espaces."),
-      tags$small("L'option “Supprimer la ponctuation” pilote remove_punct, même si elle est autorisée par la regex ci-dessus."),
-      tags$small("Cette option conserve les apostrophes lexicales (ex. aujourd'hui) et ne traite que les élisions en début de mot."),
-      checkboxInput("forcer_minuscules_avant", "Passage en minuscules avant tokenisation", value = FALSE),
       checkboxInput("supprimer_ponctuation", "Supprimer la ponctuation", value = FALSE),
       tags$small("Supprime la ponctuation à la tokenisation quanteda (remove_punct), par ex. . , ; : ! ? ' ’ \" - ( ) [ ] …"),
       checkboxInput("supprimer_chiffres", "Supprimer les chiffres (0-9)", value = FALSE),

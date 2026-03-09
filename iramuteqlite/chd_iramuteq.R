@@ -27,7 +27,7 @@ calculer_mincl_auto_iramuteq <- function(n_uce, nbcl, classif_mode = c("double",
 normaliser_options_nettoyage_iramuteq <- function(options_nettoyage = list()) {
   opts <- list(
     nettoyage_caracteres = isTRUE(options_nettoyage$nettoyage_caracteres),
-    forcer_minuscules_avant = isTRUE(options_nettoyage$forcer_minuscules_avant),
+    forcer_minuscules_avant = TRUE,
     supprimer_chiffres = isTRUE(options_nettoyage$supprimer_chiffres),
     supprimer_apostrophes = isTRUE(options_nettoyage$supprimer_apostrophes),
     remplacer_tirets_espaces = isTRUE(options_nettoyage$remplacer_tirets_espaces),
@@ -75,7 +75,7 @@ preparer_entrees_chd_iramuteq <- function(
   textes_prep <- appliquer_nettoyage_fun(
     textes = textes,
     activer_nettoyage = opts$nettoyage_caracteres,
-    forcer_minuscules = opts$forcer_minuscules_avant,
+    forcer_minuscules = TRUE,
     supprimer_chiffres = opts$supprimer_chiffres,
     supprimer_apostrophes = opts$supprimer_apostrophes,
     remplacer_tirets_espaces = opts$remplacer_tirets_espaces
