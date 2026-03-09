@@ -546,7 +546,7 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
                                               res_stats_df = NULL,
                                               top_n_terms = 4,
                                               orientation = c("vertical", "horizontal"),
-                                              style_affichage = c("iramuteq_bars", "classique"),
+                                              style_affichage = c("factoextra", "iramuteq_bars", "classique"),
                                               edge_style = c("diagonal", "orthogonal"),
                                               edge_lwd = 1.6) {
   orientation <- match.arg(orientation)
@@ -555,7 +555,7 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
   edge_lwd <- suppressWarnings(as.numeric(edge_lwd))
   if (!is.finite(edge_lwd) || is.na(edge_lwd) || edge_lwd <= 0) edge_lwd <- 1.6
 
-  .tracer_dendrogramme_hclust <- function(res_stats_df, classes, top_n_terms, orientation) {
+  .tracer_dendrogramme_hclust <- function(res_stats_df, classes, top_n_terms, orientation, style_affichage = "classique") {
     if (is.null(res_stats_df) || !is.data.frame(res_stats_df)) return(FALSE)
     if (!all(c("Classe", "Terme") %in% names(res_stats_df))) return(FALSE)
 
@@ -585,45 +585,78 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
     clusternb <- nrow(mat)
     if (!is.finite(clusternb) || clusternb < 2) return(FALSE)
 
-    # Adaptation directe du principe PlotDendroCut (IRaMuTeQ historique):
-    # 1) découpe en k classes,
-    # 2) reconstruction d'un hclust compact avec members,
-    # 3) tracé horizontal avec nodePar/edgePar.
-    memb <- stats::cutree(hc, k = clusternb)
-    cent <- matrix(seq_len(clusternb), ncol = 1)
-    h_cut <- stats::hclust(stats::dist(cent)^2, method = "centroid", members = as.vector(table(memb)))
-    h_cut$labels <- sprintf("CL %02d", seq_len(clusternb))
+    # Libellés des feuilles: "Classe X (Y %)" quand les proportions sont disponibles.
+    labels_classes <- rownames(mat)
+    if (is.null(labels_classes) || !length(labels_classes)) labels_classes <- as.character(seq_len(clusternb))
+    ids_cl <- suppressWarnings(as.integer(labels_classes))
+    pct_par_classe <- NULL
+    if (!is.null(classes)) {
+      classes_int <- suppressWarnings(as.integer(classes))
+      classes_int <- classes_int[is.finite(classes_int) & classes_int > 0]
+      if (length(classes_int)) pct_par_classe <- prop.table(table(classes_int)) * 100
+    }
+    labels_txt <- vapply(seq_along(labels_classes), function(i) {
+      cl_id <- ids_cl[[i]]
+      if (!is.finite(cl_id)) return(paste0("Classe ", labels_classes[[i]]))
+      pct <- if (!is.null(pct_par_classe)) suppressWarnings(as.numeric(pct_par_classe[[as.character(cl_id)]])) else NA_real_
+      if (is.finite(pct)) {
+        paste0("Classe ", cl_id, " (", format(round(pct, 1), nsmall = 1), " %)")
+      } else {
+        paste0("Classe ", cl_id)
+      }
+    }, character(1))
+    hc$labels <- labels_txt
 
-    dend <- stats::as.dendrogram(h_cut)
-    plot(
-      dend,
-      type = "rectangle",
-      horiz = identical(orientation, "horizontal"),
-      center = TRUE,
-      leaflab = "none",
-      edgePar = list(col = "#5f5f5f", lwd = 2.3),
-      main = "Dendrogramme CHD",
-      xlab = "",
-      sub = ""
-    )
+    if (identical(style_affichage, "factoextra") && requireNamespace("factoextra", quietly = TRUE)) {
+      ok_facto <- tryCatch({
+        p <- factoextra::fviz_dend(
+          hc,
+          k = clusternb,
+          horiz = identical(orientation, "horizontal"),
+          cex = 0.78,
+          k_colors = NULL,
+          color_labels_by_k = FALSE,
+          rect = TRUE,
+          rect_border = "#7a7a7a",
+          rect_fill = FALSE,
+          main = "Dendrogramme CHD (factoextra)",
+          xlab = "",
+          ylab = ""
+        )
+        p <- p + ggplot2::theme(
+          axis.title = ggplot2::element_blank(),
+          axis.text = ggplot2::element_blank(),
+          axis.ticks = ggplot2::element_blank()
+        )
+        print(p)
+        TRUE
+      }, error = function(e) FALSE)
 
-    TRUE
+      if (isTRUE(ok_facto)) return(TRUE)
+      # Si le rendu factoextra échoue, on signale l'échec (pas de tracé CHD legacy).
+    }
+
+    FALSE
   }
 
   n1 <- .normaliser_n1_chd(chd_obj$n1)
   list_fille <- chd_obj$list_fille
   has_chd_tree <- !is.null(n1) && is.list(list_fille) && length(list_fille) > 0
 
-  # Priorité au vrai arbre CHD (list_mere/list_fille) pour rester fidèle au découpage des classes.
-  # Le hclust sur la table Classes × Termes n'est qu'un repli en cas de structure CHD indisponible.
-  if (!has_chd_tree) {
-    if (.tracer_dendrogramme_hclust(res_stats_df = res_stats_df, classes = classes, top_n_terms = top_n_terms, orientation = orientation)) {
-      return(invisible(NULL))
-    }
-    plot.new()
-    text(0.5, 0.5, "Dendrogramme CHD indisponible.", cex = 1.1)
+  # Rendu unique demandé: factoextra via hclust Classe × Termes (pas de tracé CHD legacy).
+  if (.tracer_dendrogramme_hclust(
+    res_stats_df = res_stats_df,
+    classes = classes,
+    top_n_terms = top_n_terms,
+    orientation = orientation,
+    style_affichage = "factoextra"
+  )) {
     return(invisible(NULL))
   }
+
+  plot.new()
+  text(0.5, 0.5, "Impossible de tracer le dendrogramme avec factoextra.", cex = 1.0)
+  return(invisible(NULL))
 
   noms <- names(list_fille)
   if (is.null(noms) || any(!nzchar(noms))) noms <- as.character(seq_along(list_fille))
