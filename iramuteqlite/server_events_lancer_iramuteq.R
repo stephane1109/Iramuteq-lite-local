@@ -1106,7 +1106,7 @@ register_events_lancer <- function(input, output, session, rv) {
           if (!svd_method_iramuteq %in% c("irlba", "svdR")) svd_method_iramuteq <- "irlba"
 
           max_formes_iramuteq <- suppressWarnings(as.integer(input$iramuteq_max_formes))
-          if (is.na(max_formes_iramuteq) || max_formes_iramuteq < 1L) max_formes_iramuteq <- 6000L
+          if (is.na(max_formes_iramuteq) || max_formes_iramuteq < 1L) max_formes_iramuteq <- 20000L
 
           stats_mode_iramuteq <- normaliser_mode_stats_chd_iramuteq(input$iramuteq_stats_mode)
 

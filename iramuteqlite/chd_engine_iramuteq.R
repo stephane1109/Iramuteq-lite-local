@@ -80,7 +80,7 @@ lancer_moteur_chd_iramuteq <- function(
   libsvdc_path = NULL,
   binariser = FALSE,
   rscripts_dir = NULL,
-  max_formes = 6000L
+  max_formes = 20000L
 ) {
   mincl_mode <- match.arg(mincl_mode)
   classif_mode <- match.arg(classif_mode)
