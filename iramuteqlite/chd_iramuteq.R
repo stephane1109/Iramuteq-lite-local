@@ -170,7 +170,7 @@ calculer_chd_iramuteq <- function(
   libsvdc_path = NULL,
   binariser = FALSE,
   rscripts_dir = NULL,
-  max_formes = 6000L
+  max_formes = 20000L
 ) {
   svd_method <- match.arg(svd_method)
 
@@ -180,7 +180,7 @@ calculer_chd_iramuteq <- function(
   .charger_scripts_iramuteq_chd(rscripts_dir)
 
   max_formes_use <- suppressWarnings(as.integer(max_formes))
-  if (is.na(max_formes_use) || max_formes_use < 1L) max_formes_use <- 6000L
+  if (is.na(max_formes_use) || max_formes_use < 1L) max_formes_use <- 20000L
 
   n_feat_avant_max <- quanteda::nfeat(dfm_obj)
   dfm_utilise <- dfm_obj
