@@ -244,6 +244,10 @@ calculer_table_classes_termes <- function(dfm_obj, groupes, termes_cibles = NULL
   }
 
   if (quanteda::nfeat(dfm2) > max_termes) {
+    # Important : la réduction à `max_termes` (400 par défaut) se fait
+    # sur les termes les plus fréquents dans le DFM (quanteda::topfeatures),
+    # pas sur les meilleurs chi2. Le chi2 est calculé ensuite sur la table
+    # classes × termes retenue pour l'AFC.
     top <- quanteda::topfeatures(dfm2, n = max_termes)
     dfm2 <- dfm2[, names(top)]
   }

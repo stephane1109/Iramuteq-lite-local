@@ -95,6 +95,8 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
 - **CHD** : affichage graphique de la CHD.
 - **Type** : bar (barres) ou cloud (nuage) pour l’affichage des termes par classe.
 - **Statistiques** : chi2, lr, frequency, selon le critère utilisé pour classer les termes.
+- **AFC (limite 400 termes)** : quand le vocabulaire dépasse 400 termes, l'application conserve d'abord les 400 termes les plus fréquents (pas les meilleurs chi2), puis calcule les chi2 sur cette table réduite.
+- **CHD (pas de plafond fixe type 400)** : la CHD ne coupe pas automatiquement à 400 termes ; elle travaille sur le vocabulaire restant après prétraitements et filtre `min_docfreq`.
 - Dans les exports CSV de type (`measure = "chi2"`), les colonnes suivantes sont importantes :
   - **`n_target`** : nombre d’occurrences du terme dans la classe/cluster analysé.
   - **`n_reference`** : nombre d’occurrences du même terme dans (tout) le corpus de référence (le reste des classes).

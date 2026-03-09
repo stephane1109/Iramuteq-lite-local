@@ -97,6 +97,9 @@ preparer_entrees_chd_iramuteq <- function(
   }
 
   dfm_obj <- quanteda::dfm(tok)
+  # CHD : contrairement à l'AFC classes × termes, il n'y a pas ici de plafond
+  # global type "top 400". Le vocabulaire est conservé selon les filtres amont
+  # (nettoyage, stopwords éventuels, puis min_docfreq appliqué ailleurs dans le pipeline).
   list(textes = textes_prep, tok = tok, dfm = dfm_obj, options = opts)
 }
 
