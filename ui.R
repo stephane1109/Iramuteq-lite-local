@@ -169,7 +169,6 @@ ui <- fluidPage(
       ),
 
       checkboxInput("nettoyage_caracteres", "Nettoyage caractères (regex)", value = FALSE),
-      checkboxInput("forcer_minuscules_avant", "Passage en minuscules avant tokenisation", value = FALSE),
       checkboxInput("supprimer_ponctuation", "Supprimer la ponctuation", value = FALSE),
       tags$small("Supprime la ponctuation à la tokenisation quanteda (remove_punct), par ex. . , ; : ! ? ' ’ \" - ( ) [ ] …"),
       checkboxInput("supprimer_chiffres", "Supprimer les chiffres (0-9)", value = FALSE),

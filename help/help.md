@@ -64,7 +64,7 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
 - **Supprimer la ponctuation** (`supprimer_ponctuation`) : active `remove_punct` lors de la tokenisation quanteda. La ponctuation est retirée des tokens utilisés pour les analyses (CHD, stats).
 - **Supprimer les chiffres (0-9)** (`supprimer_chiffres`) : supprime les chiffres avant tokenisation.
 - **Traiter les élisions FR** (`supprimer_apostrophes`) : enlève les élisions en début de mot (`c'`, `j'`, `l'`, `m'`, `n'`, `s'`, `t'`, `d'`, `qu'`) pour ramener par ex. `c'est` vers `est`.
-- **Forcer en minuscules avant analyse** (`forcer_minuscules_avant`) : convertit le texte en minuscules avant la construction des tokens/termes.
+- **Passage en minuscules** : appliqué automatiquement avant la construction des tokens/termes (option non configurable).
 
 #### Stopwords en mode IRaMuTeQ-like
 

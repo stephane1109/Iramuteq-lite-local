@@ -937,7 +937,7 @@ register_events_lancer <- function(input, output, session, rv) {
           textes_nettoyes <- appliquer_nettoyage_iramuteq(
             textes = textes_orig,
             activer_nettoyage = isTRUE(input$nettoyage_caracteres),
-            forcer_minuscules = isTRUE(input$forcer_minuscules_avant),
+            forcer_minuscules = TRUE,
             supprimer_chiffres = isTRUE(input$supprimer_chiffres),
             supprimer_apostrophes = isTRUE(input$supprimer_apostrophes),
             remplacer_tirets_espaces = isTRUE(input$remplacer_tirets_espaces)
