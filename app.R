@@ -1,9 +1,9 @@
 ###############################################################################
-#                    Script CHD - version beta 0.4 - 18-02-2026               #
+#                    Script CHD - version beta 0.2 - 09-03-2026               #
 #      A partir d'un corpus texte formaté aux exigences IRAMUTEQ              #
 #                            Stéphane Meurisse                                #
 #                           wwww.codeandcortex.fr                             #          
-#                                                                             #
+#                              DEV EN LOCAL                                   #
 ###############################################################################
 
 required_packages <- c("shiny", "quanteda", "wordcloud", "RColorBrewer", "igraph", "dplyr", "htmltools", "remotes", "irlba", "markdown")
