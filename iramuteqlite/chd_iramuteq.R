@@ -546,7 +546,7 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
                                               res_stats_df = NULL,
                                               top_n_terms = 4,
                                               orientation = c("vertical", "horizontal"),
-                                              style_affichage = c("iramuteq_bars", "classique"),
+                                              style_affichage = c("iramuteq_bars", "classique", "factoextra"),
                                               edge_style = c("diagonal", "orthogonal"),
                                               edge_lwd = 1.6) {
   orientation <- match.arg(orientation)
@@ -555,7 +555,7 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
   edge_lwd <- suppressWarnings(as.numeric(edge_lwd))
   if (!is.finite(edge_lwd) || is.na(edge_lwd) || edge_lwd <= 0) edge_lwd <- 1.6
 
-  .tracer_dendrogramme_hclust <- function(res_stats_df, classes, top_n_terms, orientation) {
+  .tracer_dendrogramme_hclust <- function(res_stats_df, classes, top_n_terms, orientation, style_affichage = "classique") {
     if (is.null(res_stats_df) || !is.data.frame(res_stats_df)) return(FALSE)
     if (!all(c("Classe", "Terme") %in% names(res_stats_df))) return(FALSE)
 
@@ -584,6 +584,28 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
     hc <- stats::hclust(dist_obj, method = "ward.D2")
     clusternb <- nrow(mat)
     if (!is.finite(clusternb) || clusternb < 2) return(FALSE)
+
+    if (identical(style_affichage, "factoextra") && requireNamespace("factoextra", quietly = TRUE)) {
+      ok_facto <- tryCatch({
+        p <- factoextra::fviz_dend(
+          hc,
+          k = clusternb,
+          horiz = identical(orientation, "horizontal"),
+          cex = 0.8,
+          k_colors = NULL,
+          color_labels_by_k = FALSE,
+          rect = FALSE,
+          main = "Dendrogramme CHD (factoextra)",
+          xlab = "",
+          ylab = "Distance"
+        )
+        print(p)
+        TRUE
+      }, error = function(e) FALSE)
+
+      if (isTRUE(ok_facto)) return(TRUE)
+      # Si le rendu factoextra échoue, on retombe automatiquement sur le tracé de repli base R.
+    }
 
     # Adaptation directe du principe PlotDendroCut (IRaMuTeQ historique):
     # 1) découpe en k classes,
@@ -614,10 +636,29 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
   list_fille <- chd_obj$list_fille
   has_chd_tree <- !is.null(n1) && is.list(list_fille) && length(list_fille) > 0
 
+  # Mode alternatif local: rendu via hclust/factoextra à partir de la table Classe × Termes.
+  if (identical(style_affichage, "factoextra")) {
+    if (.tracer_dendrogramme_hclust(
+      res_stats_df = res_stats_df,
+      classes = classes,
+      top_n_terms = top_n_terms,
+      orientation = orientation,
+      style_affichage = style_affichage
+    )) {
+      return(invisible(NULL))
+    }
+  }
+
   # Priorité au vrai arbre CHD (list_mere/list_fille) pour rester fidèle au découpage des classes.
   # Le hclust sur la table Classes × Termes n'est qu'un repli en cas de structure CHD indisponible.
   if (!has_chd_tree) {
-    if (.tracer_dendrogramme_hclust(res_stats_df = res_stats_df, classes = classes, top_n_terms = top_n_terms, orientation = orientation)) {
+    if (.tracer_dendrogramme_hclust(
+      res_stats_df = res_stats_df,
+      classes = classes,
+      top_n_terms = top_n_terms,
+      orientation = orientation,
+      style_affichage = style_affichage
+    )) {
       return(invisible(NULL))
     }
     plot.new()
