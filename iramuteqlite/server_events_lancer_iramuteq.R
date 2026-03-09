@@ -18,14 +18,21 @@ register_events_lancer <- function(input, output, session, rv) {
         if (!length(msg)) return(invisible(NULL))
         msg <- paste(msg, collapse = " ")
 
+        horodatage <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+        msg_horodate <- paste0("[", horodatage, "] ", msg)
+
         precedent <- rv$logs
         if (is.null(precedent) || !length(precedent) || all(is.na(precedent)) || !any(nzchar(precedent))) {
-          rv$logs <- msg
+          rv$logs <- msg_horodate
         } else {
           precedent <- precedent[!is.na(precedent)]
           precedent <- precedent[nzchar(precedent)]
-          rv$logs <- paste(c(precedent, msg), collapse = "\n")
+          rv$logs <- paste(c(precedent, msg_horodate), collapse = "\n")
         }
+
+        message("[IRaMuTeQ-lite] ", msg_horodate)
+        flush.console()
+
         invisible(NULL)
       }
     }
