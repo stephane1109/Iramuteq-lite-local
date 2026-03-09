@@ -52,6 +52,18 @@ ui_options_iramuteq <- function() {
       "Calcul des statistiques CHD",
       choices = choix_mode_stats_chd_iramuteq(),
       selected = "vectorise"
-    )
+    ),
+    selectInput(
+      "dendro_render_mode",
+      "Rendu du dendrogramme",
+      choices = c(
+        "Auto (factoextra si disponible)" = "auto",
+        "IRaMuTeQ barres" = "iramuteq_bars",
+        "Classique" = "classique",
+        "Factoextra" = "factoextra"
+      ),
+      selected = "auto"
+    ),
+    tags$small("Si vous avez un souci d'affichage, forcez le mode Factoextra ici.")
   )
 }
