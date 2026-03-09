@@ -6,8 +6,17 @@
 #                                                                             #
 ###############################################################################
 
-install.packages(c("shiny","quanteda","wordcloud","RColorBrewer","igraph","dplyr","htmltools","remotes","irlba","markdown"))
-remotes::install_github("husson/FactoMineR", dependencies = NA, upgrade = "never")
+required_packages <- c("shiny", "quanteda", "wordcloud", "RColorBrewer", "igraph", "dplyr", "htmltools", "remotes", "irlba", "markdown")
+installed_packages <- rownames(installed.packages())
+missing_packages <- setdiff(required_packages, installed_packages)
+
+if (length(missing_packages) > 0) {
+  install.packages(missing_packages)
+}
+
+if (!"FactoMineR" %in% installed_packages) {
+  remotes::install_github("husson/FactoMineR", dependencies = NA, upgrade = "never")
+}
 
 # Augmente la limite d'upload Shiny (défaut ~5 Mo), utile pour les corpus .txt volumineux.
 options(shiny.maxRequestSize = 30 * 1024^2)
