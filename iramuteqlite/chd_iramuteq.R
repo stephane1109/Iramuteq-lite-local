@@ -586,19 +586,48 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
     clusternb <- nrow(mat)
     if (!is.finite(clusternb) || clusternb < 2) return(FALSE)
 
+    # Libellés des feuilles: "Classe X (Y %)" quand les proportions sont disponibles.
+    labels_classes <- rownames(mat)
+    if (is.null(labels_classes) || !length(labels_classes)) labels_classes <- as.character(seq_len(clusternb))
+    ids_cl <- suppressWarnings(as.integer(labels_classes))
+    pct_par_classe <- NULL
+    if (!is.null(classes)) {
+      classes_int <- suppressWarnings(as.integer(classes))
+      classes_int <- classes_int[is.finite(classes_int) & classes_int > 0]
+      if (length(classes_int)) pct_par_classe <- prop.table(table(classes_int)) * 100
+    }
+    labels_txt <- vapply(seq_along(labels_classes), function(i) {
+      cl_id <- ids_cl[[i]]
+      if (!is.finite(cl_id)) return(paste0("Classe ", labels_classes[[i]]))
+      pct <- if (!is.null(pct_par_classe)) suppressWarnings(as.numeric(pct_par_classe[[as.character(cl_id)]])) else NA_real_
+      if (is.finite(pct)) {
+        paste0("Classe ", cl_id, " (", format(round(pct, 1), nsmall = 1), " %)")
+      } else {
+        paste0("Classe ", cl_id)
+      }
+    }, character(1))
+    hc$labels <- labels_txt
+
     if (identical(style_affichage, "factoextra") && requireNamespace("factoextra", quietly = TRUE)) {
       ok_facto <- tryCatch({
         p <- factoextra::fviz_dend(
           hc,
           k = clusternb,
           horiz = identical(orientation, "horizontal"),
-          cex = 0.8,
+          cex = 0.78,
           k_colors = NULL,
           color_labels_by_k = FALSE,
-          rect = FALSE,
+          rect = TRUE,
+          rect_border = "#7a7a7a",
+          rect_fill = FALSE,
           main = "Dendrogramme CHD (factoextra)",
           xlab = "",
-          ylab = "Distance"
+          ylab = ""
+        )
+        p <- p + ggplot2::theme(
+          axis.title = ggplot2::element_blank(),
+          axis.text = ggplot2::element_blank(),
+          axis.ticks = ggplot2::element_blank()
         )
         print(p)
         TRUE
