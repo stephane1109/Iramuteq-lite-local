@@ -587,19 +587,25 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
     if (!is.finite(clusternb) || clusternb < 2) return(FALSE)
 
     if (identical(style_affichage, "factoextra") && requireNamespace("factoextra", quietly = TRUE)) {
-      factoextra::fviz_dend(
-        hc,
-        k = clusternb,
-        horiz = identical(orientation, "horizontal"),
-        cex = 0.8,
-        k_colors = NULL,
-        color_labels_by_k = FALSE,
-        rect = FALSE,
-        main = "Dendrogramme CHD (factoextra)",
-        xlab = "",
-        ylab = "Distance"
-      )
-      return(TRUE)
+      ok_facto <- tryCatch({
+        p <- factoextra::fviz_dend(
+          hc,
+          k = clusternb,
+          horiz = identical(orientation, "horizontal"),
+          cex = 0.8,
+          k_colors = NULL,
+          color_labels_by_k = FALSE,
+          rect = FALSE,
+          main = "Dendrogramme CHD (factoextra)",
+          xlab = "",
+          ylab = "Distance"
+        )
+        print(p)
+        TRUE
+      }, error = function(e) FALSE)
+
+      if (isTRUE(ok_facto)) return(TRUE)
+      # Si le rendu factoextra échoue, on retombe automatiquement sur le tracé de repli base R.
     }
 
     # Adaptation directe du principe PlotDendroCut (IRaMuTeQ historique):

@@ -432,7 +432,20 @@ server <- function(input, output, session) {
       return(invisible(NULL))
     }
 
-    style_dendro <- if (requireNamespace("factoextra", quietly = TRUE)) "factoextra" else "iramuteq_bars"
+    mode_demande <- if (is.null(input$dendro_render_mode) || !nzchar(input$dendro_render_mode)) "auto" else input$dendro_render_mode
+    factoextra_dispo <- requireNamespace("factoextra", quietly = TRUE)
+    if (identical(mode_demande, "factoextra") && !factoextra_dispo) {
+      plot.new()
+      text(0.5, 0.5, "Mode Factoextra demandé mais package 'factoextra' absent.\nInstallez-le ou passez en mode Auto.", cex = 1.0)
+      return(invisible(NULL))
+    }
+
+    style_dendro <- switch(mode_demande,
+      "factoextra" = "factoextra",
+      "classique" = "classique",
+      "iramuteq_bars" = "iramuteq_bars",
+      if (factoextra_dispo) "factoextra" else "iramuteq_bars"
+    )
 
     tracer_dendrogramme_iramuteq_ui(
       rv = rv,
