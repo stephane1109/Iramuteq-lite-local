@@ -630,7 +630,11 @@ tracer_dendrogramme_chd_iramuteq <- function(chd_obj,
         p <- p + ggplot2::theme(
           axis.title = ggplot2::element_blank(),
           axis.text = ggplot2::element_blank(),
-          axis.ticks = ggplot2::element_blank()
+          axis.ticks = ggplot2::element_blank(),
+          axis.line = ggplot2::element_blank(),
+          panel.border = ggplot2::element_blank(),
+          panel.grid = ggplot2::element_blank(),
+          legend.position = "none"
         )
         print(p)
         TRUE
