@@ -432,11 +432,13 @@ server <- function(input, output, session) {
       return(invisible(NULL))
     }
 
+    style_dendro <- if (requireNamespace("factoextra", quietly = TRUE)) "factoextra" else "iramuteq_bars"
+
     tracer_dendrogramme_iramuteq_ui(
       rv = rv,
       top_n_terms = 4,
       orientation = "horizontal",
-      style_affichage = "iramuteq_bars"
+      style_affichage = style_dendro
     )
   })
 
