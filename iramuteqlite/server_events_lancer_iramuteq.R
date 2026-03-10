@@ -1,4 +1,4 @@
-# Rôle du fichier: server_events_lancer_iramuteq.R porte le pipeline d'analyse IRaMuTeQ-like.
+# Rôle du fichier: server_events_lancer_iramuteq.R porte le pipeline d'analyse IRaMuTeQ-lite.
 # Ce script centralise une responsabilité métier/technique utilisée par l'application.
 # Module server - événement principal `input$lancer`
 # Ce fichier encapsule le pipeline principal lancé au clic sur "Lancer l'analyse"
