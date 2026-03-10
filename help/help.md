@@ -37,7 +37,17 @@ Conseil : télécharge l’archive ZIP des exports juste après la fin de l’an
 
 # Logique générale de l’application
 
-Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une matrice termes-documents (DTM), lance la CHD avec le moteur IRaMuTeQ-like, calcule les statistiques, génère un HTML surligné (concordancier), puis produit la CHD, AFC, NER, nuages de mots et réseaux de cooccurrences. L’onglet d’exploration permet de visualiser la CHD.
+Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une matrice documents-termes (DFM), lance la CHD avec le moteur IRaMuTeQ-like, calcule les statistiques, génère un HTML surligné (concordancier), puis produit la CHD, AFC, NER, nuages de mots et réseaux de cooccurrences. L’onglet d’exploration permet de visualiser la CHD.
+
+### DFM (définition et construction)
+
+- **DFM (Document-Feature Matrix)** : matrice où chaque ligne = un segment, chaque colonne = un terme, chaque cellule = nombre d’occurrences du terme dans le segment.
+- Construction (version courte) : segmentation → tokenisation/nettoyage → retrait optionnel des stopwords → filtrage `min_docfreq` (`dfm_trim`) pour retirer les termes trop rares.
+
+### Segments vides (dans la DFM)
+
+- Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM (plus aucun terme conservé après filtres).
+- Ces segments sont supprimés avant la CHD.
 
 ### Choix de la langue du dictionnaire spaCy
 
