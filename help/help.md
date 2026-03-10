@@ -42,7 +42,9 @@ Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une ma
 
 ### Segments vides (dans la DFM)
 
-- Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM (plus aucun terme conservé après filtres).
+- Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM.
+- En clair : c'est un segment de texte pour lequel **aucun terme ne survit** après les filtres (stopwords, fréquence minimale `min_docfreq`, nettoyage, etc.).
+- Donc "vide" signifie ici : **vide de termes conservés dans la DFM**, pas forcément vide dans le texte brut.
 - Ces segments sont supprimés avant la CHD.
 
 ### Paramètres de l’analyse
@@ -51,7 +53,7 @@ Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une ma
 - Nombre minimal de termes par segment : `min_segment_size` : Lors de la tokenisation et du calcul de la dtm, certaines formes (mots-outils, mots trop peu fréquents) ont été supprimées, les segments peuvent donc varier en taille. 
 Avec `min_segment_size = 10`, les segments comportant moins de 10 formes sont regroupés avec le segment suivant ou précédent du même document jusqu'à atteindre la taille minimale souhaitée.
 - Effectif minimal pour scinder une classe : **min_split_members**. Nombre minimal de documents pour qu'une classe soit scindée en deux à l'étape suivante de la classification.
-- Fréquence minimale des termes : `dfm_trim min_docfreq` : fréquence minimale en nombre de segments pour conserver un terme dans le DFM. Plus "haut" enlève les termes rares. Par exemple si vous `dfm_trim = 3` cela supprime de la matrice les termes apparaissant dans moins de 3 segments.
+- **Fréquence minimale des termes (`min_docfreq`)** : valeur recommandée **3**. Dans le logiciel IRaMuTeQ, une forme doit avoir au minimum une fréquence de 3 pour être retenue. Plus la valeur est élevée, plus les termes rares sont exclus de l'analyse.
 - **max_p (p-value)** : seuil de p-value pour filtrer les termes mis en avant dans les statistiques.
 - **top_n (wordcloud)** : nombre de termes affichés dans chaque nuage de mots.
 - **window (cooccurrences)** : taille de la fenêtre glissante pour calculer les cooccurrences.
