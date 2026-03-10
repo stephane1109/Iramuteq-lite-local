@@ -1,14 +1,13 @@
 [//]: # (Rôle du fichier: help.md documente une partie de l'application IRaMuTeQ-like.)
 [//]: # (Ce document sert de référence fonctionnelle/technique pour l'équipe.)
 [//]: # (Il décrit le comportement attendu afin de sécuriser maintenance et diagnostics.)
-### codeandcortex.fr - Stéphane Meurisse - version beta 0.4 - 18-02-2026
+### codeandcortex.fr - Stéphane Meurisse - version beta 0.1 - 09-03-2026
 - <a href="https://www.codeandcortex.fr" target="_blank" rel="noopener noreferrer">codeandcortex.fr</a>
 - <a href="https://www.codeandcortex.fr/comprendre-chd-methode-reinert/" target="_blank" rel="noopener noreferrer">Comprendre la CHD</a>
 
 
 ### IRaMuTeQ
-IRaMuTeQ, développé par Pierre Ratinaud, est un logiciel libre devenu une référence pour l’analyse textuelle en sciences humaines et sociales. Il met en œuvre la méthode de Reinert (CHD), l’AFC, ainsi que l’analyse de similitudes de Vergès, et propose de nombreux traitements complémentaires pour explorer la structure lexicale d’un corpus. Un atout est son dictionnaire de lemmes, plus précis et performant que beaucoup d’alternatives, ce qui améliore la stabilité des classes. Depuis la version 0.4 vous avez le choix avec le dictionnaire NLP de spaCy et celui de **IRaMuTeQ - lexique_fr** (uniquement fr)
-Ce qui change à partir de la version O.4 c'est l'utilisation du **dictionnaire** utilisé par **IRaMuTeQ** (uniquement fr). **Ce dictionnaire est plus précis que spaCy**.
+IRaMuTeQ, développé par Pierre Ratinaud, est un logiciel libre devenu une référence pour l’analyse textuelle en sciences humaines et sociales. Il met en œuvre la méthode de Reinert (CHD), l’AFC, ainsi que l’analyse de similitudes de Vergès, et propose de nombreux traitements complémentaires pour explorer la structure lexicale d’un corpus. Un atout est son dictionnaire de lemmes, plus précis et performant que beaucoup d’alternatives, ce qui améliore la stabilité des classes. Le dictionnaire NLP est celui de **IRaMuTeQ - lexique_fr** (uniquement fr)
 
 - <a href="https://pratinaud.gitpages.huma-num.fr/iramuteq-website/" target="_blank" rel="noopener noreferrer">IRaMuTeQ</a>
 
