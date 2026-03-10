@@ -807,16 +807,6 @@ server <- function(input, output, session) {
     }
   )
 
-  output$dl_afc_zip <- downloadHandler(
-    filename = function() "afc_exports.zip",
-    content = function(file) {
-      req(rv$afc_dir)
-      zip_tmp <- tempfile(fileext = ".zip")
-      creer_zip_depuis_dossier(rv$afc_dir, zip_tmp)
-      file.copy(zip_tmp, file, overwrite = TRUE)
-    }
-  )
-
 }
 
 app <- shinyApp(ui = ui, server = server)

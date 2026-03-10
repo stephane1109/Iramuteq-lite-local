@@ -230,8 +230,7 @@ ui <- fluidPage(
 
       tags$hr(),
 
-      downloadButton("dl_zip", "Télécharger exports (zip)"),
-      downloadButton("dl_afc_zip", "Télécharger AFC (zip)")
+      downloadButton("dl_zip", "Télécharger export iramuteq-lite (zip)")
     ),
 
     mainPanel(
