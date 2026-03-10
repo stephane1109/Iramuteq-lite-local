@@ -1,4 +1,4 @@
-# Rôle du fichier: ui.R porte une partie du pipeline d'analyse IRaMuTeQ-like.
+# Rôle du fichier: ui.R porte une partie du pipeline d'analyse IRaMuTeQ-lite.
 # ui.R
 
 library(shiny)
