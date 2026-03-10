@@ -1,4 +1,4 @@
-# Rôle du fichier: nettoyage_iramuteq.R isole la préparation texte du mode IRaMuTeQ-like.
+# Rôle du fichier: nettoyage_iramuteq.R isole la préparation texte du mode IRaMuTeQ-lite.
 # Cette logique est volontairement séparée d'un ancien moteur externe car les conventions de préparation
 # ne sont pas identiques (script textprepa Python et dictionnaire lexique_fr imposé).
 
