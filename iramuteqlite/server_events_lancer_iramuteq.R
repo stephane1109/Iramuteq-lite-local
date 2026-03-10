@@ -803,7 +803,7 @@ register_events_lancer <- function(input, output, session, rv) {
       if (is.null(input$fichier_corpus) || is.null(input$fichier_corpus$datapath) || !file.exists(input$fichier_corpus$datapath)) {
         rv$statut <- "Aucun fichier uploadé."
         rv$progression <- 0
-        ajouter_log(rv, "Aucun fichier uploadé côté serveur. Sélectionne un .txt puis relance.")
+        ajouter_log(rv, "Aucun fichier uploadé côté serveur. Sélectionner un .txt puis relancer.")
         showNotification("Aucun fichier uploadé. Choisis un .txt.", type = "error", duration = 6)
         return(invisible(NULL))
       }
