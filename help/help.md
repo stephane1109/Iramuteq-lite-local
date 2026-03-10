@@ -42,7 +42,9 @@ Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une ma
 
 ### Segments vides (dans la DFM)
 
-- Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM (plus aucun terme conservé après filtres).
+- Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM.
+- En clair : c'est un segment de texte pour lequel **aucun terme ne survit** après les filtres (stopwords, fréquence minimale `min_docfreq`, nettoyage, etc.).
+- Donc "vide" signifie ici : **vide de termes conservés dans la DFM**, pas forcément vide dans le texte brut.
 - Ces segments sont supprimés avant la CHD.
 
 ### Paramètres de l’analyse
