@@ -566,7 +566,7 @@ register_events_lancer <- function(input, output, session, rv) {
 
       dfm_obj <- quanteda::dfm_trim(dfm_obj, min_docfreq = min_docfreq_val)
       if (quanteda::nfeat(dfm_obj) < 1L) {
-        stop(paste0("Aucun terme ne reste après filtrage min_docfreq=", min_docfreq_val, ". Diminue cette valeur."))
+        stop(paste0("Aucun terme ne reste après filtrage min_docfreq=", min_docfreq_val, ". Diminuer cette valeur."))
       }
 
       list(
@@ -616,7 +616,7 @@ register_events_lancer <- function(input, output, session, rv) {
         return(tags$div(
           style = "padding: 12px;",
           tags$p("Le dossier d'exports est introuvable pour cette session."),
-          tags$p("Relance l'analyse pour régénérer les exports.")
+          tags$p("Relancer l'analyse pour régénérer les exports.")
         ))
       }
 
@@ -624,7 +624,7 @@ register_events_lancer <- function(input, output, session, rv) {
         return(tags$div(
           style = "padding: 12px;",
           tags$p("Préfixe de ressources invalide."),
-          tags$p("Relance l'analyse pour régénérer les exports.")
+          tags$p("Relancer l'analyse pour régénérer les exports.")
         ))
       }
 
@@ -653,7 +653,7 @@ register_events_lancer <- function(input, output, session, rv) {
           paste(
             "Concordancier indisponible",
             "Le fichier du concordancier HTML n'est pas disponible pour cette analyse.",
-            "Relance l'analyse puis vérifie les logs si le problème persiste.",
+            "Relancer l'analyse puis vérifier les logs si le problème persiste.",
             sep = "\n\n"
           )
         ))
@@ -804,7 +804,7 @@ register_events_lancer <- function(input, output, session, rv) {
         rv$statut <- "Aucun fichier uploadé."
         rv$progression <- 0
         ajouter_log(rv, "Aucun fichier uploadé côté serveur. Sélectionner un .txt puis relancer.")
-        showNotification("Aucun fichier uploadé. Choisis un .txt.", type = "error", duration = 6)
+        showNotification("Aucun fichier uploadé. Choisir un .txt.", type = "error", duration = 6)
         return(invisible(NULL))
       }
 
@@ -1572,7 +1572,7 @@ register_events_lancer <- function(input, output, session, rv) {
                 max_lignes_par_classe = 100
               ),
               error = function(e) {
-                ajouter_log(rv, paste0("Concordancier AFC (fallback) : échec - ", e$message))
+                ajouter_log(rv, paste0("Concordancier AFC : échec - ", e$message))
                 NA_character_
               }
             )
@@ -1593,7 +1593,7 @@ register_events_lancer <- function(input, output, session, rv) {
               "</head><body>",
               "<h2>Concordancier indisponible</h2>",
               "<p>Le concordancier HTML n'a pas pu être généré automatiquement pour cette analyse.</p>",
-              "<p>Vérifie le journal de l'analyse puis relance si nécessaire.</p>",
+              "<p>Vérifier le journal de l'analyse puis relance si nécessaire.</p>",
               paste0("<p><strong>Dossier d'exports :</strong> <code>", htmltools::htmlEscape(rv$export_dir), "</code></p>"),
               "</body></html>"
             )
