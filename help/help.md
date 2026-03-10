@@ -105,8 +105,3 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
   - **`chi2`** et **`p`** : test d’association entre cible et référence ; plus `chi2` est élevé et `p` petite, plus le terme est spécifiquement lié à la classe.
 - **Nombre de termes** : nombre de termes affichés par classe dans la visualisation.
 - **Afficher les valeurs négatives** : inclut les termes négativement associés à une classe.
-
-### Démarrage
-
-- L’application n'effectue aucune mise à jour automatique d'un moteur externe au lancement.
-- Si un ancien message de mise à jour automatique apparaît encore, reconstruisez l'image ou le conteneur avec la dernière version du dépôt.
