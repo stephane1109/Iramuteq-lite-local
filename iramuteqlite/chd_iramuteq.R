@@ -1,4 +1,4 @@
-# Rôle du fichier: chd_iramuteq.R introduit une base "IRaMuTeQ-like" pour la CHD.
+# Rôle du fichier: chd_iramuteq.R introduit une base "IRaMuTeQ-lite" pour la CHD.
 # Ce module prépare les entrées de CHD en respectant les options de nettoyage de l'application,
 # expose des utilitaires pour le calcul de mincl (convention IRaMuTeQ texte),
 # et fournit un calcul CHD réel en s'appuyant sur les scripts R historiques d'IRaMuTeQ.
