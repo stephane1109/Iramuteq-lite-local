@@ -1,5 +1,5 @@
-# Rôle du fichier: concordancier-iramuteq.R génère un concordancier HTML dédié au mode IRaMuTeQ-like.
-# Le rendu suit le style IRaMuTeQ-like (segments par classe + surlignage),
+# Rôle du fichier: concordancier-iramuteq.R génère un concordancier HTML dédié au mode IRaMuTeQ-lite.
+# Le rendu suit le style IRaMuTeQ-lite (segments par classe + surlignage),
 # avec une sélection des termes alignée sur les filtres statistiques IRaMuTeQ-like.
 
 if (!exists("expandir_variantes_termes", mode = "function")) {
