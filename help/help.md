@@ -1,6 +1,3 @@
-[//]: # (Rôle du fichier: help.md documente une partie de l'application IRaMuTeQ-like.)
-[//]: # (Ce document sert de référence fonctionnelle/technique pour l'équipe.)
-[//]: # (Il décrit le comportement attendu afin de sécuriser maintenance et diagnostics.)
 ### codeandcortex.fr - Stéphane Meurisse - version beta 0.1 - 09-03-2026
 - <a href="https://www.codeandcortex.fr" target="_blank" rel="noopener noreferrer">codeandcortex.fr</a>
 - <a href="https://www.codeandcortex.fr/comprendre-chd-methode-reinert/" target="_blank" rel="noopener noreferrer">Comprendre la CHD</a>
@@ -17,14 +14,14 @@ IRaMuTeQ, développé par Pierre Ratinaud, est un logiciel libre devenu une réf
 La méthode de Reinert est une approche statistique d’analyse lexicale conçue pour dégager des « mondes lexicaux » dans un corpus. 
 L’idée est de repérer des ensembles de segments de texte qui partagent des vocabulaires proches. 
 
-La CHD, pour "classification hiérarchique descendante", est l’algorithme de partitionnement associé à cette méthode. 
+La CHD, pour "Classification Hiérarchique Descendante", est l’algorithme de partitionnement associé à cette méthode. 
 Il procède par divisions successives : on prend l’ensemble des segments, puis on le coupe en deux groupes maximisant leur différenciation lexicale. 
 Ensuite, chaque groupe peut être à nouveau subdivisé, et ainsi de suite, jusqu’à obtenir un nombre de classes jugé pertinent ou une limite imposée par les paramètres.
 
 
 ### Moteur de classification IRaMuTeQ-lite
 
-L'application utilise un moteur de CHD compatible IRaMuTeQ-like, intégré au dépôt.
+L'application utilise un moteur de CHD compatible IRaMuTeQ-lite, intégré au dépôt.
 Il réalise la segmentation, la classification hiérarchique descendante et les exports d'analyse.
 
 ### Pourquoi vos fichiers peuvent disparaître sur Hugging Face
