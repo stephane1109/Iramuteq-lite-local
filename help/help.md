@@ -23,7 +23,7 @@ Il procède par divisions successives : on prend l’ensemble des segments, puis
 Ensuite, chaque groupe peut être à nouveau subdivisé, et ainsi de suite, jusqu’à obtenir un nombre de classes jugé pertinent ou une limite imposée par les paramètres.
 
 
-### Moteur de classification IRaMuTeQ-like
+### Moteur de classification IRaMuTeQ-lite
 
 L'application utilise un moteur de CHD compatible IRaMuTeQ-like, intégré au dépôt.
 Il réalise la segmentation, la classification hiérarchique descendante et les exports d'analyse.
@@ -49,14 +49,9 @@ Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une ma
 - Un **segment vide** est un segment dont la somme de ligne vaut 0 dans la DFM (plus aucun terme conservé après filtres).
 - Ces segments sont supprimés avant la CHD.
 
-### Choix de la langue du dictionnaire spaCy
-
-Vous avez le choix entre 4 langues spaCy préinstallées : français, anglais, espagnol et allemand (modèles "large", lg). D’autres langues peuvent être ajoutées ensuite selon les besoins. Il existe quatre tailles de modèles : "sm", "md", "lg" et "trf" (basé sur la technologie "transformer"). Le script détecte la cohérence entre le choix du dictionnaire et votre corpus importé, sur la base des stopwords.
-
 ### Paramètres de l’analyse
 
 - **segment_size** : taille des segments lors du découpage du corpus. Plus petit donne plus de segments, plus grand donne des segments plus longs.
-- **k (nombre de classes)** : nombre de classes demandé pour la CHD.
 - Nombre minimal de termes par segment : `min_segment_size` : Lors de la tokenisation et du calcul de la dtm, certaines formes (mots-outils, mots trop peu fréquents) ont été supprimées, les segments peuvent donc varier en taille. 
 Avec `min_segment_size = 10`, les segments comportant moins de 10 formes sont regroupés avec le segment suivant ou précédent du même document jusqu'à atteindre la taille minimale souhaitée.
 - Effectif minimal pour scinder une classe : **min_split_members**. Nombre minimal de documents pour qu'une classe soit scindée en deux à l'étape suivante de la classification.
@@ -95,9 +90,6 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
 
 ### Filtrage Morphosyntaxique
 - **Tokens à conserver** : filtre les tokens conservés selon leur catégorie grammaticale (ex : NOUN, ADJ, VERB, PROPN, ADV...).
-
-### Paramètres SpaCy/NER
-- Activer NER (spaCy) => Détections des entités nommées (NER) par spaCy (ex : "Paris" = "LOC"). Le modele spaCy "md" est un peu léger... pour cette tâche.
 
 ### Exploration
 
