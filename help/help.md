@@ -47,17 +47,23 @@ Uploadez un fichier texte au format IRaMuTeQ. L’app segmente, construit une ma
 - Donc "vide" signifie ici : **vide de termes conservés dans la DFM**, pas forcément vide dans le texte brut.
 - Ces segments sont supprimés avant la CHD.
 
-### Paramètres de l’analyse
+### Paramètres de l’analyse (appliqués au calcul IRaMuTeQ-like)
 
-- **segment_size** : taille des segments lors du découpage du corpus. Plus petit donne plus de segments, plus grand donne des segments plus longs.
-- Nombre minimal de termes par segment : `min_segment_size` : Lors de la tokenisation et du calcul de la dtm, certaines formes (mots-outils, mots trop peu fréquents) ont été supprimées, les segments peuvent donc varier en taille. 
-Avec `min_segment_size = 10`, les segments comportant moins de 10 formes sont regroupés avec le segment suivant ou précédent du même document jusqu'à atteindre la taille minimale souhaitée.
-- Effectif minimal pour scinder une classe : **min_split_members**. Nombre minimal de documents pour qu'une classe soit scindée en deux à l'étape suivante de la classification.
-- **Fréquence minimale des termes (`min_docfreq`)** : valeur recommandée **3**. Dans le logiciel IRaMuTeQ, une forme doit avoir au minimum une fréquence de 3 pour être retenue. Plus la valeur est élevée, plus les termes rares sont exclus de l'analyse.
-- **max_p (p-value)** : seuil de p-value pour filtrer les termes mis en avant dans les statistiques.
-- **top_n (wordcloud)** : nombre de termes affichés dans chaque nuage de mots.
-- **window (cooccurrences)** : taille de la fenêtre glissante pour calculer les cooccurrences.
-- **top_feat (cooccurrences)** : nombre de termes retenus pour construire le réseau de cooccurrences.
+- **segment_size** : taille des segments pour la segmentation simple (valeur UI par défaut: 40).
+- **Fréquence minimale des termes (`min_docfreq`)** : valeur recommandée **3**. Une forme doit apparaître dans au moins 3 segments pour être conservée; plus la valeur augmente, plus les termes rares sont exclus.
+- **max_p (p-value)** + **Filtrer l'affichage par p-value** : ce seuil filtre surtout l'affichage des tableaux/stats/concordancier/nuages (le calcul CHD est lancé sur le DFM préparé en amont).
+- **top_n (wordcloud)** : nombre de termes affichés dans les nuages de mots par classe.
+
+#### Paramètres CHD spécifiques IRaMuTeQ-lite
+
+- **Nombre de classes terminales de la phase 1 (`k_iramuteq`)** : nombre de classes cibles pour la phase de partition.
+- **mincl (auto/manuel)** : seuil minimal d'UCE pour conserver une classe terminale (mode automatique ou valeur manuelle).
+- **Type de classification terminale** :
+  - `simple` : segmentation avec `segment_size`.
+  - `double` : segmentation en deux passes avec **rst1** puis **rst2**.
+- **Méthode SVD (`iramuteq_svd_method`)** : `irlba` (défaut) ou `svdR`.
+- **Nombre maximum de formes analysées (`iramuteq_max_formes`)** : limite le nombre de termes conservés pour la CHD.
+- **Calcul des statistiques CHD (`iramuteq_stats_mode`)** : choix du mode de calcul des stats (vectorisé/classique) sans changer la logique métier des sorties.
 
 ### Options de nettoyage du texte
 
@@ -67,6 +73,8 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
 - **Supprimer la ponctuation** (`supprimer_ponctuation`) : active `remove_punct` lors de la tokenisation quanteda. La ponctuation est retirée des tokens utilisés pour les analyses (CHD, stats).
 - **Supprimer les chiffres (0-9)** (`supprimer_chiffres`) : supprime les chiffres avant tokenisation.
 - **Traiter les élisions FR** (`supprimer_apostrophes`) : enlève les élisions en début de mot (`c'`, `j'`, `l'`, `m'`, `n'`, `s'`, `t'`, `d'`, `qu'`) pour ramener par ex. `c'est` vers `est`.
+- **Remplacer les tirets par des espaces** (`remplacer_tirets_espaces`) : transforme `mot-compose` en `mot compose` avant tokenisation.
+- **Retirer les stopwords** (`retirer_stopwords`) : enlève les mots-outils français via la liste `quanteda::stopwords("fr")`.
 - **Passage en minuscules** : appliqué automatiquement avant la construction des tokens/termes (option non configurable).
 
 #### Stopwords en mode IRaMuTeQ-like
@@ -80,14 +88,17 @@ Ces options agissent surtout sur la **préparation linguistique** (tokenisation,
 - Quand **Supprimer la ponctuation** est cochée, la ponctuation est bien retirée dans les **données d’analyse**.
 - Le **concordancier HTML** continue d’afficher les segments issus du corpus, donc vous pouvez encore voir de la ponctuation dans le texte affiché.
 
-### Lemmatisation (option)
+### Dictionnaire et lemmatisation (calcul IRaMuTeQ-like)
 
-- **Lemmatisation** : si activée, le texte est **lemmatisé avec Spacy ou le dictionnaire de lemme provenant du logiciel IRaMuTeQ - lexique_fr**. La lemmatisation semble (beaucoup) plus efficace avec le dictionnaire IRaMuTeQ provenant de **OpenLexicon (modifié)**.
+- **Source de lemmatisation** : en mode IRaMuTeQ-like, la source active est **Lexique (fr)**.
+- **Lemmatisation via lexique_fr** (`lexique_utiliser_lemmes`) : remplace les formes par leur lemme (`forme → c_lemme`) avant la DFM.
+- **Dictionnaire d'expressions** (`expression_utiliser_dictionnaire`) : applique les remplacements `dic_mot → dic_norm` avant l'analyse.
 
 - <a href="https://openlexicon.fr/" target="_blank" rel="noopener noreferrer">OpenLexicon</a>
 
-### Filtrage Morphosyntaxique
-- **Tokens à conserver** : filtre les tokens conservés selon leur catégorie grammaticale (ex : NOUN, ADJ, VERB, PROPN, ADV...).
+### Filtrage morphosyntaxique
+- **Filtrage morphosyntaxique** (`filtrage_morpho`) : filtre les formes selon `c_morpho` du lexique_fr.
+- **Catégories conservées** (`pos_lexique_a_conserver`) : sélection des étiquettes autorisées (ex: NOM, VER, ADJ, etc.).
 
 ### Exploration
 
